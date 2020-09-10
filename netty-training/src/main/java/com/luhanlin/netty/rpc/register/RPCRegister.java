@@ -23,10 +23,14 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
  */
 public class RPCRegister {
 
-    private int port = 8080;
+    private static int port;
 
     public RPCRegister(int port) {
         this.port = port;
+    }
+
+    public static int getPort() {
+        return port;
     }
 
     private void start() {
@@ -72,6 +76,6 @@ public class RPCRegister {
     }
 
     public static void main(String[] args) {
-        new RPCRegister(8080).start();
+        new RPCRegister(8081).start();
     }
 }

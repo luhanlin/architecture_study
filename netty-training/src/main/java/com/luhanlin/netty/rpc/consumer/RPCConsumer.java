@@ -1,7 +1,7 @@
 package com.luhanlin.netty.rpc.consumer;
 
-import com.luhanlin.netty.rpc.api.IRPCService;
 import com.luhanlin.netty.rpc.consumer.proxy.RPCProxy;
+import com.luhanlin.netty.rpc.api.IRPCService;
 
 /**
  * <类详细描述>

@@ -1,5 +1,6 @@
 package com.luhanlin.curator.operator;
 
+import com.luhanlin.curator.LocalZookeeperConnection;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
@@ -18,16 +19,10 @@ import org.apache.zookeeper.data.Stat;
  */
 public class CuratorClientOperator {
 
-    private static final String ZOOKEEPER_ADDRESS = "127.0.0.1:2181";
-
     private final CuratorFramework curatorFramework;
 
     public CuratorClientOperator() {
-        this.curatorFramework = CuratorFrameworkFactory.builder()
-                .connectString(ZOOKEEPER_ADDRESS)
-                .sessionTimeoutMs(5000)
-                .retryPolicy(new ExponentialBackoffRetry(1000,3))
-                .build();
+        this.curatorFramework = LocalZookeeperConnection.getCuratorFramework();
     }
 
     public void create(String path, String val) throws Exception {

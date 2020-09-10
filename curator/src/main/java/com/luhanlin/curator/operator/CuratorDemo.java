@@ -1,4 +1,4 @@
-package com.luhanlin.curator;
+package com.luhanlin.curator.operator;
 
 import com.luhanlin.curator.operator.CuratorClientOperator;
 

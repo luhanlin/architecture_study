@@ -93,7 +93,7 @@ public class RPCProxy {
                             }
                         });
 
-                ChannelFuture future = b.connect("localhost", 8080).sync();
+                ChannelFuture future = b.connect("localhost", 8081).sync();
                 future.channel().writeAndFlush(msg).sync();
                 future.channel().closeFuture().sync();
             } catch(Exception e){
