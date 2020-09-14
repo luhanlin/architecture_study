@@ -24,6 +24,7 @@ public class LocalZookeeperConnection {
                 .sessionTimeoutMs(5000)
                 .retryPolicy(new ExponentialBackoffRetry(1000,3))
                 .build();
+        curatorFramework.start();
     }
 
     public static CuratorFramework getCuratorFramework() {
