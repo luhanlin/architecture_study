@@ -1,4 +1,4 @@
-package com.hanlinsir.concurrent.thread04_synchronized;
+package com.hanlinsir.concurrent.thread05_synchronized;
 
 /**
  * 类详细描述：
