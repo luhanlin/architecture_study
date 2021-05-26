@@ -1,5 +1,6 @@
 package com.luhanlin.netty.rpc.register;
 
+import com.alibaba.fastjson.JSON;
 import com.luhanlin.netty.rpc.LocalZookeeperConnection;
 import com.luhanlin.netty.rpc.protocol.InvokerProtocol;
 import io.netty.channel.ChannelHandlerContext;
@@ -56,7 +57,7 @@ public class RegisterHandler extends ChannelInboundHandlerAdapter {
             result = method.invoke(clazz, request.getValues());
             System.out.println("服务端调用成功：" + result);
         }
-        ctx.write(result);
+        ctx.write(JSON.toJSONString(result));
         ctx.flush();
         ctx.close();
     }

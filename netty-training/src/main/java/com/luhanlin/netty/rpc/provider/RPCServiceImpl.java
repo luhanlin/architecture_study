@@ -1,6 +1,8 @@
 package com.luhanlin.netty.rpc.provider;
 
 import com.luhanlin.netty.rpc.api.IRPCService;
+import com.luhanlin.netty.rpc.common.entity.Test;
+import lombok.Data;
 
 /**
  * <类详细描述>
@@ -12,7 +14,10 @@ import com.luhanlin.netty.rpc.api.IRPCService;
  */
 public class RPCServiceImpl implements IRPCService {
 
-    public String hello(String content) {
-        return "Hello " + content + "!";
+    public Object hello(String content) {
+        Test test = new Test();
+        test.setMemo("接受请求啦");
+        test.setContent(content);
+        return test;
     }
 }

@@ -14,7 +14,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
  */
 public class LocalZookeeperConnection {
 
-    private static final String ZOOKEEPER_ADDRESS = "127.0.0.1:2181";
+    private static final String ZOOKEEPER_ADDRESS = "192.168.134.121:2181";
 
     private static final CuratorFramework curatorFramework;
 

@@ -1,5 +1,8 @@
 package com.luhanlin.netty.rpc.register;
 
+import com.luhanlin.netty.rpc.protocol.InvokerProtocol;
+import com.luhanlin.netty.rpc.serializer.JSONSerializer;
+import com.luhanlin.netty.rpc.serializer.RpcDecoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -58,7 +61,8 @@ public class RPCRegister {
                                     // 对象参数类型编码器
                                     .addLast("encoder",new ObjectEncoder())
                                     // 对象参数类型解码器
-                                    .addLast("decoder",new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)))
+//                                    .addLast("decoder",new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)))
+                                    .addLast("decoder",new RpcDecoder(InvokerProtocol.class, new JSONSerializer()))
                                     // 进行编解码后的处理
                                     .addLast(new RegisterHandler());
                         }

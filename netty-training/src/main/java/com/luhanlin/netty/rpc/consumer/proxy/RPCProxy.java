@@ -1,6 +1,10 @@
 package com.luhanlin.netty.rpc.consumer.proxy;
 
+import com.luhanlin.netty.rpc.common.entity.Test;
 import com.luhanlin.netty.rpc.protocol.InvokerProtocol;
+import com.luhanlin.netty.rpc.serializer.JSONSerializer;
+import com.luhanlin.netty.rpc.serializer.RpcDecoder;
+import com.luhanlin.netty.rpc.serializer.RpcEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -86,7 +90,8 @@ public class RPCProxy {
                                 //自定义协议编码器
                                 pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
                                 //对象参数类型编码器
-                                pipeline.addLast("encoder", new ObjectEncoder());
+                                //pipeline.addLast("encoder", new ObjectEncoder());
+                                pipeline.addLast("encoder", new RpcEncoder(InvokerProtocol.class, new JSONSerializer()));
                                 //对象参数类型解码器
                                 pipeline.addLast("decoder", new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)));
                                 pipeline.addLast("handler",consumerHandler);

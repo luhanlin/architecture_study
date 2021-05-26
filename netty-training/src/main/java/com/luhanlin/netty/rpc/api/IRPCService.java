@@ -10,5 +10,5 @@ package com.luhanlin.netty.rpc.api;
  */
 public interface IRPCService {
 
-    String hello(String content);
+    Object hello(String content);
 }
