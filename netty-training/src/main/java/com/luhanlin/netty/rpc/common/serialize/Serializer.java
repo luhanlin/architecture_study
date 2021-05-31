@@ -1,4 +1,4 @@
-package com.luhanlin.netty.rpc.serializer;
+package com.luhanlin.netty.rpc.common.serialize;
 
 import java.io.IOException;
 
@@ -28,3 +28,4 @@ public interface Serializer {
     <T> T deserialize(Class<T> clazz, byte[] bytes) throws IOException;
 
 }
+

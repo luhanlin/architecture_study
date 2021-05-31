@@ -1,8 +1,9 @@
-package com.luhanlin.netty.rpc.provider;
+package com.luhanlin.netty.rpc.provider.service;
 
 import com.luhanlin.netty.rpc.api.IRPCService;
+import com.luhanlin.netty.rpc.common.annotation.RpcService;
 import com.luhanlin.netty.rpc.common.entity.Test;
-import lombok.Data;
+import org.springframework.stereotype.Service;
 
 /**
  * <类详细描述>
@@ -12,6 +13,8 @@ import lombok.Data;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
+@RpcService
+@Service
 public class RPCServiceImpl implements IRPCService {
 
     public Object hello(String content) {

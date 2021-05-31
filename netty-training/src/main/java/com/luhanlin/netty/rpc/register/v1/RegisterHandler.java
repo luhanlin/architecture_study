@@ -1,7 +1,7 @@
-package com.luhanlin.netty.rpc.register;
+package com.luhanlin.netty.rpc.register.v1;
 
 import com.alibaba.fastjson.JSON;
-import com.luhanlin.netty.rpc.LocalZookeeperConnection;
+import com.luhanlin.netty.rpc.common.utils.LocalZookeeperConnection;
 import com.luhanlin.netty.rpc.protocol.InvokerProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

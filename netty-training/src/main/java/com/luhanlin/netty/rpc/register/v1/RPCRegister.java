@@ -1,8 +1,8 @@
-package com.luhanlin.netty.rpc.register;
+package com.luhanlin.netty.rpc.register.v1;
 
 import com.luhanlin.netty.rpc.protocol.InvokerProtocol;
-import com.luhanlin.netty.rpc.serializer.JSONSerializer;
-import com.luhanlin.netty.rpc.serializer.RpcDecoder;
+import com.luhanlin.netty.rpc.common.serialize.impl.JSONSerializer;
+import com.luhanlin.netty.rpc.common.coder.RpcDecoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -12,8 +12,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
-import io.netty.handler.codec.serialization.ClassResolvers;
-import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
 /**

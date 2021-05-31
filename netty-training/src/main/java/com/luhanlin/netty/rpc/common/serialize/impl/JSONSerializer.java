@@ -1,6 +1,7 @@
-package com.luhanlin.netty.rpc.serializer;
+package com.luhanlin.netty.rpc.common.serialize.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.luhanlin.netty.rpc.common.serialize.Serializer;
 
 import java.io.IOException;
 
