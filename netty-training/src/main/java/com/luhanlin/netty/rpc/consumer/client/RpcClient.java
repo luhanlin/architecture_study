@@ -5,7 +5,7 @@ import com.luhanlin.netty.rpc.common.coder.RpcEncoder;
 import com.luhanlin.netty.rpc.common.http.RpcRequest;
 import com.luhanlin.netty.rpc.common.http.RpcResponse;
 import com.luhanlin.netty.rpc.common.idle.Beat;
-import com.luhanlin.netty.rpc.common.idle.RequestMetrics;
+import com.luhanlin.netty.rpc.monitor.metrics.RequestMetrics;
 import com.luhanlin.netty.rpc.common.serialize.impl.JSONSerializer;
 import com.luhanlin.netty.rpc.consumer.handler.RpcClientHandler;
 import io.netty.bootstrap.Bootstrap;
@@ -58,7 +58,7 @@ public class RpcClient {
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.TCP_NODELAY, true)
                 .option(ChannelOption.SO_KEEPALIVE,true)
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000)
+//                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000)
                 .handler(new ChannelInitializer<SocketChannel>() {
 
                     @Override
@@ -101,7 +101,12 @@ public class RpcClient {
     public Object sent(RpcRequest rpcRequest) throws InterruptedException, ExecutionException {
         // 开始统计请求时间
         RequestMetrics.getInstance().put(ip, port, rpcRequest.getRequestId(), rpcRequest.getClassName());
-        return this.channel.writeAndFlush(rpcRequest).sync().get();
+        System.out.println("请求的服务器地址为：" + ip + ":" + port);
+        if (channel.isWritable()) {
+            return this.channel.writeAndFlush(rpcRequest).sync().get();
+        }
+        System.out.println(" TODO 服务被断开，可以重新路由... ");
+        return null;
     }
 
     @Override

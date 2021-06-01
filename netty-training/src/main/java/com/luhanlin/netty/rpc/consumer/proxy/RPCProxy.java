@@ -4,6 +4,8 @@ import com.luhanlin.netty.rpc.common.http.RpcRequest;
 import com.luhanlin.netty.rpc.common.http.RpcResponse;
 import com.luhanlin.netty.rpc.consumer.RPCConsumer;
 import com.luhanlin.netty.rpc.consumer.client.RpcClient;
+import com.luhanlin.netty.rpc.consumer.loadbalance.LoadBalanceStrategy;
+import com.luhanlin.netty.rpc.consumer.loadbalance.strategy.RandomSelectStrategy;
 import com.luhanlin.netty.rpc.protocol.InvokerProtocol;
 import com.luhanlin.netty.rpc.common.serialize.impl.JSONSerializer;
 import com.luhanlin.netty.rpc.common.coder.RpcEncoder;
@@ -35,13 +37,17 @@ import java.util.concurrent.ExecutionException;
  */
 public class RPCProxy {
 
+    private static LoadBalanceStrategy loadBalance = new RandomSelectStrategy();
+
     /**
      * 创建代理对象
      * @param cls interface 对象
      * @param <T>
      * @return
      */
-    public static <T> T create(final Class<T> cls) {
+    public static <T> T create(final Class<T> cls, LoadBalanceStrategy loadBalanceStrategy) {
+        loadBalance = loadBalanceStrategy;
+
         Class[] interfaces = cls.isInterface() ? new Class[]{cls} : cls.getInterfaces();
 
         return (T)Proxy.newProxyInstance(cls.getClassLoader(), interfaces, new RPCInvocationHandler(cls));
@@ -75,14 +81,13 @@ public class RPCProxy {
 
             System.out.println("请求的内容为：" + rpcRequest);
 
-            // 去服务端获取数据
-            List<RpcClient> rpcClients = RPCConsumer.CLIENT_POOL.get(cls.getName());
+            // 通过负载均衡规则获取连接
+            RpcClient rpcClient = loadBalance.route(RPCConsumer.CLIENT_POOL, cls.getName());
 
-            if (rpcClients == null && rpcClients.isEmpty()) {
+            if (rpcClient == null) {
                 return null;
             }
 
-            RpcClient rpcClient = rpcClients.get(new Random().nextInt(rpcClients.size()));
             try {
                 return rpcClient.sent(rpcRequest);
             } catch (Exception e) {

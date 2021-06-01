@@ -1,7 +1,9 @@
 package com.luhanlin.netty.rpc.common.http;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 请求包装类
@@ -10,6 +12,8 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class RpcRequest {
 

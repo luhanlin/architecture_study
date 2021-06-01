@@ -68,9 +68,9 @@ public class RpcServer implements InitializingBean, DisposableBean {
                              lengthAdjustment：要添加到长度字段值的补偿值
                              initialBytesToStrip：从解码帧中去除的第一个字节数
                              */
-                            .addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4))
-                            // 自定义协议编码器
-                            .addLast(new LengthFieldPrepender(4))
+//                            .addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4))
+//                            // 自定义协议编码器
+//                            .addLast(new LengthFieldPrepender(4))
                             // 请求参数解码
                             .addLast(new RpcDecoder(RpcRequest.class, new JSONSerializer()))
                             // 响应编码

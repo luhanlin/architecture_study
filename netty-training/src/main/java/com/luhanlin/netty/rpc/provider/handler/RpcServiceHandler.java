@@ -17,6 +17,7 @@ import org.springframework.cglib.reflect.FastClass;
 import org.springframework.cglib.reflect.FastMethod;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -28,6 +29,7 @@ import java.util.concurrent.*;
  * @author <a href="mailto:allen_lu_hh@163.com">lin</a>
  * @since 1.0
  */
+@Component
 public class RpcServiceHandler extends SimpleChannelInboundHandler<RpcRequest> implements ApplicationContextAware {
 
     private static final Map<String, Object> SERVICE_INSTANCE_MAP = new ConcurrentHashMap<>();
@@ -93,6 +95,7 @@ public class RpcServiceHandler extends SimpleChannelInboundHandler<RpcRequest> i
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof IdleStateEvent) {
+            System.out.println("心跳通道关闭");
             ctx.channel().close();
         } else {
             super.userEventTriggered(ctx, evt);

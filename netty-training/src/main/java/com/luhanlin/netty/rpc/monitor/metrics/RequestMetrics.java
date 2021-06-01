@@ -1,4 +1,4 @@
-package com.luhanlin.netty.rpc.common.idle;
+package com.luhanlin.netty.rpc.monitor.metrics;
 
 import com.luhanlin.netty.rpc.common.config.KeeperConfig;
 import lombok.AllArgsConstructor;

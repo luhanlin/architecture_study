@@ -1,11 +1,12 @@
 package com.luhanlin.netty.rpc.consumer;
 
-import com.luhanlin.netty.rpc.common.idle.RequestMetrics;
+import com.luhanlin.netty.rpc.consumer.loadbalance.strategy.MinRequestCostStrategy;
+import com.luhanlin.netty.rpc.monitor.metrics.RequestMetrics;
 import com.luhanlin.netty.rpc.common.listener.NodeChangeListener;
 import com.luhanlin.netty.rpc.consumer.client.RpcClient;
 import com.luhanlin.netty.rpc.consumer.proxy.RPCProxy;
 import com.luhanlin.netty.rpc.register.handler.RpcRegistryHandler;
-import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
+import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -51,24 +52,25 @@ public class RPCConsumer implements NodeChangeListener {
             }
             CLIENT_POOL.put(interClassName, rpcClients);
         }
+        rpcRegistryHandler.addListener(this);
     }
 
     public Object createProxy(final Class<?> serviceClass) {
-        return RPCProxy.create(serviceClass);
+        return RPCProxy.create(serviceClass, new MinRequestCostStrategy());
     }
 
     @Override
-    public void notify(String service, List<String> serviceList, PathChildrenCacheEvent pathChildrenCacheEvent) {
+    public void notify(String service, List<String> serviceList, TreeCacheEvent treeCacheEvent) {
         List<RpcClient> rpcClients = CLIENT_POOL.get(service);
 
-        PathChildrenCacheEvent.Type eventType = pathChildrenCacheEvent.getType();
+        TreeCacheEvent.Type eventType = treeCacheEvent.getType();
         System.out.println("收到节点变更通知:" + eventType + "----" + rpcClients + "---" + service + "---" + serviceList);
-        String path = pathChildrenCacheEvent.getData().getPath();
+        String path = treeCacheEvent.getData().getPath();
         String instanceConfig = path.substring(path.lastIndexOf("/") + 1);
 
         // 增加节点
-        if (PathChildrenCacheEvent.Type.CHILD_ADDED.equals(eventType)
-                || PathChildrenCacheEvent.Type.CONNECTION_RECONNECTED.equals(eventType)) {
+        if (TreeCacheEvent.Type.NODE_ADDED.equals(eventType)
+                || TreeCacheEvent.Type.CONNECTION_RECONNECTED.equals(eventType)) {
             if (CollectionUtils.isEmpty(rpcClients)) {
                 rpcClients = new ArrayList<>();
             }
@@ -84,9 +86,9 @@ public class RPCConsumer implements NodeChangeListener {
             // 节点耗时统计
             RequestMetrics.getInstance().addNode(address[0], Integer.parseInt(address[1]), service);
             System.out.println("新增节点:" + instanceConfig);
-        } else if (PathChildrenCacheEvent.Type.CHILD_REMOVED.equals(eventType)
-                || PathChildrenCacheEvent.Type.CONNECTION_SUSPENDED.equals(eventType)
-                || PathChildrenCacheEvent.Type.CONNECTION_LOST.equals(eventType)) {
+        } else if (TreeCacheEvent.Type.NODE_REMOVED.equals(eventType)
+                || TreeCacheEvent.Type.CONNECTION_SUSPENDED.equals(eventType)
+                || TreeCacheEvent.Type.CONNECTION_LOST.equals(eventType)) {
             // 移除节点
             if (!CollectionUtils.isEmpty(rpcClients)) {
                 String[] address = instanceConfig.split(":");

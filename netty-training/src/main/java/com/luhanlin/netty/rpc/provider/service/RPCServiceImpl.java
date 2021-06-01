@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class RPCServiceImpl implements IRPCService {
 
-    public Object hello(String content) {
+    public String hello(String content) {
         Test test = new Test();
         test.setMemo("接受请求啦");
         test.setContent(content);
-        return test;
+        return test.toString();
     }
 }

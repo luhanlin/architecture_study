@@ -39,9 +39,8 @@ public class LocalZookeeperConnection {
 
         CuratorFramework client = CuratorFrameworkFactory.builder()
                 .connectString(url)
-                .sessionTimeoutMs(5000)
+                .sessionTimeoutMs(30000)
                 .retryPolicy(new ExponentialBackoffRetry(1000,3))
-                .sessionTimeoutMs(5000)
                 .build();
         client.getConnectionStateListenable().addListener((CuratorFramework curatorFramework, ConnectionState connectionState) -> {
             if (ConnectionState.CONNECTED.equals(connectionState)) {

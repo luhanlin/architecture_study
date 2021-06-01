@@ -2,7 +2,7 @@ package com.luhanlin.netty.rpc.consumer.handler;
 
 import com.luhanlin.netty.rpc.common.http.RpcResponse;
 import com.luhanlin.netty.rpc.common.idle.Beat;
-import com.luhanlin.netty.rpc.common.idle.RequestMetrics;
+import com.luhanlin.netty.rpc.monitor.metrics.RequestMetrics;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -24,6 +24,7 @@ public class RpcClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof IdleStateEvent) {
+            System.out.println("发送心跳....");
             ctx.writeAndFlush(Beat.BEAT_PING);
         } else {
             super.userEventTriggered(ctx, evt);

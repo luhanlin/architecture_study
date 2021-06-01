@@ -1,6 +1,6 @@
 package com.luhanlin.netty.rpc.common.listener;
 
-import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
+import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 
 import java.util.List;
 
@@ -19,6 +19,6 @@ public interface NodeChangeListener {
      * @param serviceList
      * @param pathChildrenCacheEvent
      */
-    void notify(String children, List<String> serviceList, PathChildrenCacheEvent pathChildrenCacheEvent);
+    void notify(String children, List<String> serviceList, TreeCacheEvent treeCacheEvent);
 
 }
