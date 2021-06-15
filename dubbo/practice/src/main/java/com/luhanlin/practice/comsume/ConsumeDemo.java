@@ -17,6 +17,6 @@ public class ConsumeDemo {
     private IHelloService helloService;
 
     public static void main(String[] args) {
-
+        new ConsumeDemo().helloService.hello();
     }
 }
